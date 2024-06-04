@@ -1,0 +1,13 @@
+.env
+venv
+*.pyc
+__pycache__/
+*.iml
+.idea/
+data
+*.egg-info
+**.DS_Store
+.vscode/
+examples/demo.env
+*.ipynb_checkpoints
+

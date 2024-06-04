@@ -1,0 +1,11 @@
+/venv
+*.pyc
+__pycache__/
+.idea
+*.egg-info
+*.iml
+/data
+.env
+.git
+.gitignore
+docker-compose.yml
