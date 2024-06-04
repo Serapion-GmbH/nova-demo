@@ -1,0 +1,95 @@
+name: Lint the code, run tests, build and push Docker image
+
+on:
+  push:
+    # Match all branches *without* a / in the name.
+    # This will exclude "sub" branches, such as feature branches.
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '**'
+  release:
+    types: [ published, edited ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Run tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.12 ]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setting up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install ".[ci]"
+
+      - name: Lint
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 . --count --exit-zero --statistics --max-line-length=120
+
+      - name: Test
+        run: |
+          py.test
+
+  release:
+    runs-on: ubuntu-latest
+    concurrency: release
+    permissions:
+      id-token: write
+      contents: write
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Python Semantic Release
+        if: github.ref == 'refs/heads/main'
+        id: release_version
+        uses: python-semantic-release/python-semantic-release@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+    outputs:
+      version: ${{ steps.release_version.outputs.version }}
+
+  build-and-push:
+    runs-on: ubuntu-latest
+    needs: release
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: |
+            ghcr.io/serapion-gmbh/oam-app-server:${{ github.sha }}
+            ${{ github.ref == 'refs/heads/main' && 'ghcr.io/serapion-gmbh/nova-demo:latest' || '' }}
+            ${{ needs.release.outputs.version && format('ghcr.io/serapion-gmbh/oam-app-server:{0}', needs.release.outputs.version) || '' }}
