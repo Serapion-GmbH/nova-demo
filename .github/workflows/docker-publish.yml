@@ -86,6 +86,6 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ghcr.io/serapion-gmbh/oam-app-server:${{ github.sha }}
+            ghcr.io/serapion-gmbh/nova-demo:${{ github.sha }}
             ${{ github.ref == 'refs/heads/main' && 'ghcr.io/serapion-gmbh/nova-demo:latest' || '' }}
-            ${{ needs.release.outputs.version && format('ghcr.io/serapion-gmbh/oam-app-server:{0}', needs.release.outputs.version) || '' }}
+            ${{ needs.release.outputs.version && format('ghcr.io/serapion-gmbh/nova-demo:{0}', needs.release.outputs.version) || '' }}
