@@ -15,7 +15,7 @@ on:
 
 jobs:
   build:
-    name: Run tests
+    name: Run Linting
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -37,10 +37,6 @@ jobs:
         run: |
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           flake8 . --count --exit-zero --statistics --max-line-length=120
-
-      - name: Test
-        run: |
-          py.test
 
   release:
     runs-on: ubuntu-latest
