@@ -2,6 +2,17 @@
 
 
 
+## v0.2.0 (2024-06-12)
+
+### Feature
+
+* feat: add Readme with env ([`b3a9783`](https://github.com/Serapion-GmbH/nova-demo/commit/b3a9783f53ebaa7147860e1529552719511f693e))
+
+### Unknown
+
+* Merge branch &#39;main&#39; of github.com:Serapion-GmbH/nova-demo ([`815b64e`](https://github.com/Serapion-GmbH/nova-demo/commit/815b64e0e88d1c18e291ffa211fe7364a1671e98))
+
+
 ## v0.1.0 (2024-06-12)
 
 ### Feature
