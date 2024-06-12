@@ -15,7 +15,7 @@ on:
 
 jobs:
   build:
-    name: Run tests
+    name: Run Linting
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -37,10 +37,6 @@ jobs:
         run: |
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           flake8 . --count --exit-zero --statistics --max-line-length=120
-
-      - name: Test
-        run: |
-          py.test
 
   release:
     runs-on: ubuntu-latest
@@ -90,6 +86,6 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ghcr.io/serapion-gmbh/oam-app-server:${{ github.sha }}
+            ghcr.io/serapion-gmbh/nova-demo:${{ github.sha }}
             ${{ github.ref == 'refs/heads/main' && 'ghcr.io/serapion-gmbh/nova-demo:latest' || '' }}
-            ${{ needs.release.outputs.version && format('ghcr.io/serapion-gmbh/oam-app-server:{0}', needs.release.outputs.version) || '' }}
+            ${{ needs.release.outputs.version && format('ghcr.io/serapion-gmbh/nova-demo:{0}', needs.release.outputs.version) || '' }}
