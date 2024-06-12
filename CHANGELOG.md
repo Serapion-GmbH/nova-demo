@@ -2,6 +2,19 @@
 
 
 
+## v0.1.0 (2024-06-12)
+
+### Feature
+
+* feat: add helm chart ([`f59a0b2`](https://github.com/Serapion-GmbH/nova-demo/commit/f59a0b235d6e8465321feac1636c9094f82d46a1))
+
+### Unknown
+
+* Merge branch &#39;main&#39; of github.com:Serapion-GmbH/nova-demo ([`1e28b8b`](https://github.com/Serapion-GmbH/nova-demo/commit/1e28b8b32fc2a9aeb28eba076f008bfeed8ececa))
+
+* Update docker-publish.yml ([`ccad5d1`](https://github.com/Serapion-GmbH/nova-demo/commit/ccad5d14553539549517407b1a19b700634fbc18))
+
+
 ## v0.0.0 (2024-06-11)
 
 ### Ci
